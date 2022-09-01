@@ -68,8 +68,9 @@ def get_avg_salary_hh(languages):
             response = requests.get(url_hh, headers=headers_hh, params=payload)
             response.raise_for_status()
             for vacancy in response.json()['items']:
-                if predict_rub_salary_hh(vacancy['salary']):
-                    salaries.append(predict_rub_salary_hh(vacancy['salary']))
+                predict_salary = predict_rub_salary_hh(vacancy['salary'])
+                if predict_salary:
+                    salaries.append(predict_salary)
             pages_number = response.json()['pages']
             page += 1
         avg_language_salary[language] = {
@@ -103,8 +104,9 @@ def get_avg_salary_sj(languages, secret_key):
             response = requests.get(url_sj, headers=headers_sj, params=payload)
             response.raise_for_status()
             for vacancy_sj in response.json()['objects']:
-                if predict_rub_salary_sj(vacancy_sj):
-                    salaries.append(predict_rub_salary_sj(vacancy_sj))
+                predict_salary = predict_rub_salary_sj(vacancy_sj)
+                if predict_salary:
+                    salaries.append(predict_salary)
             vacancies_found += len(response.json()['objects'])
             page += 1
         avg_language_salary[language] = {
