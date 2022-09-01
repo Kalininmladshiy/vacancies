@@ -51,15 +51,18 @@ def get_avg_salary_hh(languages):
         'User-Agent': 'HH-User-Agent',
         }
     avg_language_salary = {}
+    vacancy_id = '1.221'
+    moscow_id = '1'
+    vacancies_for_a_period_days = '30'
     for language in languages:
         salaries = []
         page = 0
         pages_number = 1
         while page < pages_number:
             payload = {
-                'specialization': '1.221',
-                'area': '1',
-                'period': '30',
+                'specialization': vacancy_id,
+                'area': moscow_id,
+                'period': vacancies_for_a_period_days,
                 'text': language,
                 'only_with_salary': 'true',
                 'currency': 'RUR',
@@ -88,6 +91,10 @@ def get_avg_salary_sj(languages, secret_key):
         'X-Api-App-Id': secret_key,
         }
     avg_language_salary = {}
+    vacancy_id = 48
+    moscow_id = 4
+    vacancies_for_a_period_days = 7
+    count_of_vacancies_per_page = 100
     for language in languages:
         salaries = []
         vacancies_found = 0
@@ -95,11 +102,11 @@ def get_avg_salary_sj(languages, secret_key):
         pages_number = 2
         while page < pages_number:
             payload = {
-                'catalogues': 48,
-                'town': 4,
-                'period': 7,
+                'catalogues': vacancy_id,
+                'town': moscow_id,
+                'period': vacancies_for_a_period_days,
                 'keyword': language,
-                'count': 100,
+                'count': count_of_vacancies_per_page,
                 'page': page
                 }
             response = requests.get(url_sj, headers=headers_sj, params=payload)
