@@ -52,7 +52,7 @@ def get_avg_salary_hh(languages):
         }
     avg_language_salary = {}
     for language in languages:
-        salarys = []
+        salaries = []
         page = 0
         pages_number = 1
         while page < pages_number:
@@ -69,13 +69,13 @@ def get_avg_salary_hh(languages):
             response.raise_for_status()
             for vacancie in response.json()['items']:
                 if predict_rub_salary_hh(vacancie['salary']):
-                    salarys.append(predict_rub_salary_hh(vacancie['salary']))
+                    salaries.append(predict_rub_salary_hh(vacancie['salary']))
             pages_number = response.json()['pages']
             page += 1
         avg_language_salary[language] = {
             "vacancies_found": response.json()['found'],
-            "vacancies_processed": len(salarys),
-            "average_salary": int(mean(salarys)),
+            "vacancies_processed": len(salaries),
+            "average_salary": int(mean(salaries)),
         }
     return avg_language_salary
 
@@ -87,7 +87,7 @@ def get_avg_salary_sj(languages, secret_key):
         }
     avg_language_salary = {}
     for language in languages:
-        salarys = []
+        salaries = []
         vacancies_found = 0
         page = 0
         pages_number = 2
@@ -104,13 +104,13 @@ def get_avg_salary_sj(languages, secret_key):
             response.raise_for_status()
             for vacancie_sj in response.json()['objects']:
                 if predict_rub_salary_sj(vacancie_sj):
-                    salarys.append(predict_rub_salary_sj(vacancie_sj))
+                    salaries.append(predict_rub_salary_sj(vacancie_sj))
             vacancies_found += len(response.json()['objects'])
             page += 1
         avg_language_salary[language] = {
             "vacancies_found": vacancies_found,
-            "vacancies_processed": len(salarys),
-            "average_salary": int(mean(salarys)),
+            "vacancies_processed": len(salaries),
+            "average_salary": int(mean(salaries)),
         }
     return avg_language_salary
 
