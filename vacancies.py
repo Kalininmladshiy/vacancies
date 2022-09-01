@@ -6,23 +6,25 @@ from dotenv import load_dotenv
 
 
 def predict_rub_salary_hh(vacancy):
-    if vacancy['currency'] == 'RUR':
-        if vacancy['from'] and vacancy['to']:
-            return int(mean([vacancy['from'], vacancy['to']]))
-        elif not vacancy['from']:
-            return int(vacancy['to'] * 0.8)
-        elif not vacancy['to']:
-            return int(vacancy['from'] * 1.2)
+    if vacancy['currency'] != 'RUR':
+        return None
+    elif vacancy['from'] and vacancy['to']:
+        return int(mean([vacancy['from'], vacancy['to']]))
+    elif not vacancy['from']:
+        return int(vacancy['to'] * 0.8)
+    elif not vacancy['to']:
+        return int(vacancy['from'] * 1.2)
 
 
 def predict_rub_salary_sj(vacancy):
-    if vacancy['currency'] == 'rub':
-        if vacancy['payment_from'] and vacancy['payment_to']:
-            return int(mean([vacancy['payment_from'], vacancy['payment_to']]))
-        elif not vacancy['payment_from']:
-            return int(vacancy['payment_to'] * 0.8)
-        elif not vacancy['payment_to']:
-            return int(vacancy['payment_from'] * 1.2)
+    if vacancy['currency'] != 'rub':
+        return None
+    elif vacancy['payment_from'] and vacancy['payment_to']:
+        return int(mean([vacancy['payment_from'], vacancy['payment_to']]))
+    elif not vacancy['payment_from']:
+        return int(vacancy['payment_to'] * 0.8)
+    elif not vacancy['payment_to']:
+        return int(vacancy['payment_from'] * 1.2)
 
 
 def get_beautiful_table(table_data, big_title):
