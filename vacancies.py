@@ -5,24 +5,24 @@ from terminaltables import AsciiTable
 from dotenv import load_dotenv
 
 
-def predict_rub_salary_hh(vacancie):
-    if vacancie['currency'] == 'RUR':
-        if vacancie['from'] and vacancie['to']:
-            return int(mean([vacancie['from'], vacancie['to']]))
-        elif not vacancie['from']:
-            return int(vacancie['to'] * 0.8)
-        elif not vacancie['to']:
-            return int(vacancie['from'] * 1.2)
+def predict_rub_salary_hh(vacancy):
+    if vacancy['currency'] == 'RUR':
+        if vacancy['from'] and vacancy['to']:
+            return int(mean([vacancy['from'], vacancy['to']]))
+        elif not vacancy['from']:
+            return int(vacancy['to'] * 0.8)
+        elif not vacancy['to']:
+            return int(vacancy['from'] * 1.2)
 
 
-def predict_rub_salary_sj(vacancie):
-    if vacancie['currency'] == 'rub':
-        if vacancie['payment_from'] and vacancie['payment_to']:
-            return int(mean([vacancie['payment_from'], vacancie['payment_to']]))
-        elif not vacancie['payment_from']:
-            return int(vacancie['payment_to'] * 0.8)
-        elif not vacancie['payment_to']:
-            return int(vacancie['payment_from'] * 1.2)
+def predict_rub_salary_sj(vacancy):
+    if vacancy['currency'] == 'rub':
+        if vacancy['payment_from'] and vacancy['payment_to']:
+            return int(mean([vacancy['payment_from'], vacancy['payment_to']]))
+        elif not vacancy['payment_from']:
+            return int(vacancy['payment_to'] * 0.8)
+        elif not vacancy['payment_to']:
+            return int(vacancy['payment_from'] * 1.2)
 
 
 def get_beautiful_table(table_data, big_title):
@@ -67,9 +67,9 @@ def get_avg_salary_hh(languages):
                 }
             response = requests.get(url_hh, headers=headers_hh, params=payload)
             response.raise_for_status()
-            for vacancie in response.json()['items']:
-                if predict_rub_salary_hh(vacancie['salary']):
-                    salaries.append(predict_rub_salary_hh(vacancie['salary']))
+            for vacancy in response.json()['items']:
+                if predict_rub_salary_hh(vacancy['salary']):
+                    salaries.append(predict_rub_salary_hh(vacancy['salary']))
             pages_number = response.json()['pages']
             page += 1
         avg_language_salary[language] = {
@@ -102,9 +102,9 @@ def get_avg_salary_sj(languages, secret_key):
                 }
             response = requests.get(url_sj, headers=headers_sj, params=payload)
             response.raise_for_status()
-            for vacancie_sj in response.json()['objects']:
-                if predict_rub_salary_sj(vacancie_sj):
-                    salaries.append(predict_rub_salary_sj(vacancie_sj))
+            for vacancy_sj in response.json()['objects']:
+                if predict_rub_salary_sj(vacancy_sj):
+                    salaries.append(predict_rub_salary_sj(vacancy_sj))
             vacancies_found += len(response.json()['objects'])
             page += 1
         avg_language_salary[language] = {
