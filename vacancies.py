@@ -17,22 +17,16 @@ def predict_rub_salary(salary_from, salary_to):
 def predict_rub_salary_sj(vacancy):
     if vacancy['currency'] != 'rub':
         return None, None
-    elif vacancy['payment_from'] and vacancy['payment_to']:
+    else:
         return vacancy['payment_from'], vacancy['payment_to']
-    elif not vacancy['payment_from']:
-        return None, vacancy['payment_to']
-    elif not vacancy['payment_to']:
-        return vacancy['payment_from'], None    
+
 
 def predict_rub_salary_hh(vacancy):
     if vacancy['currency'] != 'RUR':
         return None, None
-    elif vacancy['from'] and vacancy['to']:
+    else:
         return vacancy['from'], vacancy['to']
-    elif not vacancy['from']:
-        return None, vacancy['to']
-    elif not vacancy['to']:
-        return vacancy['to'], None    
+
 
 def get_beautiful_table(table_data, big_title):
     table = [
