@@ -79,15 +79,15 @@ def get_avg_salary_hh(languages):
                 }
             response = requests.get(url_hh, headers=headers_hh, params=payload)
             response.raise_for_status()
-            vacancies = response.json()['items']
-            for vacancy in vacancies:
+            vacancies = response.json()
+            for vacancy in vacancies['items']:
                 predicted_salary = predict_rub_salary(*predict_rub_salary_hh(vacancy['salary']))
                 if predicted_salary:
                     salaries.append(predicted_salary)
-            pages_number = response.json()['pages']
+            pages_number = vacancies['pages']
             page += 1
         avg_language_salary[language] = {
-            "vacancies_found": response.json()['found'],
+            "vacancies_found": vacancies['found'],
             "vacancies_processed": len(salaries),
             "average_salary": int(mean(salaries)),
         }
